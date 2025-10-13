@@ -1,0 +1,95 @@
+name: CI/CD - EnergyAPI (.NET 8 + Docker + SQL Server)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository }}:latest
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore ./EnergyAPI/EnergyAPI.sln
+
+      - name: Build
+        run: dotnet build ./EnergyAPI/EnergyAPI.sln -c Release --no-restore
+
+      - name: Test
+        run: dotnet test ./EnergyAPI/EnergyAPI.sln -c Release --no-build --verbosity normal
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: docker build -t $IMAGE_NAME ./EnergyAPI
+
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME
+
+  deploy-staging:
+    needs: build-and-test
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: SSH to staging and deploy with docker-compose
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            set -e
+            cd ${{ secrets.STAGING_APP_PATH }}
+            echo "IMAGE_NAME=ghcr.io/${{ github.repository }}:latest" > .env.ci
+            echo "SA_PASSWORD=${{ secrets.SA_PASSWORD }}" >> .env.ci
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env.ci
+            echo 'DEFAULT_CONNECTION=Server=sqlserver-fiap,1433;Database=${DB_NAME};User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;' >> .env.ci
+            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+            docker pull $IMAGE_NAME || true
+            docker compose --env-file .env.ci -f docker-compose.yml -f docker-compose.deploy.yml pull || true
+            docker compose --env-file .env.ci -f docker-compose.yml -f docker-compose.deploy.yml up -d
+
+  deploy-production:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: SSH to production and deploy with docker-compose
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            set -e
+            cd ${{ secrets.PROD_APP_PATH }}
+            echo "IMAGE_NAME=ghcr.io/${{ github.repository }}:latest" > .env.ci
+            echo "SA_PASSWORD=${{ secrets.SA_PASSWORD }}" >> .env.ci
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env.ci
+            echo 'DEFAULT_CONNECTION=Server=sqlserver-fiap,1433;Database=${DB_NAME};User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;' >> .env.ci
+            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+            docker pull $IMAGE_NAME || true
+            docker compose --env-file .env.ci -f docker-compose.yml -f docker-compose.deploy.yml pull || true
+            docker compose --env-file .env.ci -f docker-compose.yml -f docker-compose.deploy.yml up -d

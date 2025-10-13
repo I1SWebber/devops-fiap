@@ -1,0 +1,31 @@
+name: Build & Push to ACR
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  IMAGE_NAME: energyapi
+  ACR: ${{ secrets.ACR_LOGIN_SERVER }}
+
+jobs:
+  docker-build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Docker login to ACR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build image (.NET 8 API)
+        run: |
+          docker build -t $ACR/$IMAGE_NAME:latest ./EnergyAPI
+
+      - name: Push image
+        run: |
+          docker push $ACR/$IMAGE_NAME:latest

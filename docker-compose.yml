@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: ./EnergyAPI
+      dockerfile: Dockerfile
+    container_name: energy-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://0.0.0.0:8080"
+      ConnectionStrings__DefaultConnection: "${DEFAULT_CONNECTION}"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sqlserver-fiap
+    networks:
+      - app-net
+
+  sqlserver-fiap:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver-fiap
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${SA_PASSWORD}"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+    networks:
+      - app-net
+
+networks:
+  app-net:
+
+volumes:
+  mssql-data:

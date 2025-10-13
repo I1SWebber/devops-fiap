@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\PC GAMER\\Desktop\\EnergyAPI-Entrega-Final (1)\\EnergyAPI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{60F5C5D4-83BB-407B-9845-A677B2089C52}|..\\EnergyAPI.Tests\\EnergyAPI.Tests.csproj|c:\\users\\pc gamer\\desktop\\energyapi-entrega-final (1)\\energyapi.tests\\consumoenergiacontrollertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FA6E6A3-08E4-4837-924D-25FF89C5EA05}|EnergyAPI.csproj|c:\\users\\pc gamer\\desktop\\energyapi-entrega-final (1)\\energyapi\\controllers\\consumoenergiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FA6E6A3-08E4-4837-924D-25FF89C5EA05}|EnergyAPI.csproj|solutionrelative:controllers\\consumoenergiacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ConsumoEnergiaControllerTests.cs",
+              "DocumentMoniker": "C:\\Users\\PC GAMER\\Desktop\\EnergyAPI-Entrega-Final (1)\\EnergyAPI.Tests\\ConsumoEnergiaControllerTests.cs",
+              "RelativeDocumentMoniker": "..\\EnergyAPI.Tests\\ConsumoEnergiaControllerTests.cs",
+              "ToolTip": "C:\\Users\\PC GAMER\\Desktop\\EnergyAPI-Entrega-Final (1)\\EnergyAPI.Tests\\ConsumoEnergiaControllerTests.cs",
+              "RelativeToolTip": "..\\EnergyAPI.Tests\\ConsumoEnergiaControllerTests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-13T18:10:34.728Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ConsumoEnergiaController.cs",
+              "DocumentMoniker": "C:\\Users\\PC GAMER\\Desktop\\EnergyAPI-Entrega-Final (1)\\EnergyAPI\\Controllers\\ConsumoEnergiaController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ConsumoEnergiaController.cs",
+              "ToolTip": "C:\\Users\\PC GAMER\\Desktop\\EnergyAPI-Entrega-Final (1)\\EnergyAPI\\Controllers\\ConsumoEnergiaController.cs",
+              "RelativeToolTip": "Controllers\\ConsumoEnergiaController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-13T17:31:59.551Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
