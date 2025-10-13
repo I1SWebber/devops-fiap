@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -7,12 +9,13 @@ namespace EnergyAPI.Tests
     public class ConsumoEnergiaControllerTests
     {
         private readonly HttpClient _client;
-        [Fact(Skip = "Ignorado no CI: não sobe API local durante o pipeline")]
+
         public ConsumoEnergiaControllerTests()
         {
             var handler = new HttpClientHandler
             {
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+                ServerCertificateCustomValidationCallback =
+                    (message, cert, chain, errors) => true
             };
 
             _client = new HttpClient(handler)
@@ -21,12 +24,11 @@ namespace EnergyAPI.Tests
             };
         }
 
-        [Fact]
+        // ✅ O [Fact] fica no MÉTODO de teste (e aqui está pulado no CI)
+        [Fact(Skip = "Ignorado no CI: não sobe API local durante o pipeline")]
         public async Task Get_ReturnsHttpStatusCode200()
         {
             var response = await _client.GetAsync("/api/ConsumoEnergia");
-
-            response.EnsureSuccessStatusCode(); // Verifica se o status code é 200
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }
