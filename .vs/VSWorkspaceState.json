@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\.github",
+    "\\.github\\workflows",
+    "\\EnergyAPI",
     "\\EnergyAPI\\Middlewares",
     "\\EnergyAPI\\Migrations",
     "\\EnergyAPI\\Models",
@@ -8,6 +11,6 @@
     "\\EnergyAPI\\Properties",
     "\\EnergyAPI\\Services"
   ],
-  "SelectedNode": "\\EnergyAPI",
+  "SelectedNode": "\\.github\\workflows\\push-to-acr.yml",
   "PreviewInSolutionExplorer": false
 }
