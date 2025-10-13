@@ -93,3 +93,6 @@ jobs:
             docker pull $IMAGE_NAME || true
             docker compose --env-file .env.ci -f docker-compose.yml -f docker-compose.deploy.yml pull || true
             docker compose --env-file .env.ci -f docker-compose.yml -f docker-compose.deploy.yml up -d
+             
+
+
